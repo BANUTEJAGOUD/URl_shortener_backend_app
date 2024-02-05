@@ -17,7 +17,7 @@ postButton.addEventListener('click', async (event) => {
     body: JSON.stringify(longurl)
   }
   try {
-    let response = await fetch('http://localhost:3000/longUrl', options)
+    let response = await fetch('https://linkly-obng.onrender.com/longUrl', options)
     let data = await response.json();
     createandAppend(data._id,data.shorturl, data.longurl);
     arrayoflongurls.push({
@@ -54,7 +54,7 @@ async function deleteRow(deleteId) {
     let options={
       method:'DELETE'
     }
-    let deleteResult=await fetch(`http://localhost:3000/id/${deleteId}`,options);
+    let deleteResult=await fetch(`https://linkly-obng.onrender.com/id/${deleteId}`,options);
     let data=await deleteResult.json();
     if(data || data===null){
       let deleteElement = document.getElementById(deleteId);
@@ -85,7 +85,7 @@ async function displayQrImage(uniqueId){
       body: JSON.stringify(shorturlObj)
     }
     try {
-      let response = await fetch('http://localhost:3000/qrImage', options)
+      let response = await fetch('https://linkly-obng.onrender.com/qrImage', options)
       let data=await response.blob();
       const objectURL = URL.createObjectURL(data);
       qrSection.src=objectURL;
@@ -99,7 +99,7 @@ function createandAppend(uniqueId,shorturl, longurl) {
   tableBody.innerHTML += `
   <tr id="${uniqueId}">
     <td><a class="link-styling" href="${longurl}" target="_blank">${longurl}</a></td>
-    <td><a class="link-styling" href="http://localhost:3000/${shorturl}" target="_blank">http://localhost:3000/${shorturl}</a></td>
+    <td><a class="link-styling" href="https://linkly-obng.onrender.com/${shorturl}" target="_blank">https://linkly-obng.onrender.com/${shorturl}</a></td>
     <td><div class="qr-image"><img data-toggle="modal" data-target="#exampleModalCenter" onclick="displayQrImage('${uniqueId}')" src="https://cdn.pixabay.com/photo/2013/07/12/14/45/qr-code-148732_1280.png" alt="No-image"></div>
     <td style="text-align: center;">
     <i class="bi bi-trash" onclick="deleteRow('${uniqueId}')" style="cursor:pointer;"></i>
