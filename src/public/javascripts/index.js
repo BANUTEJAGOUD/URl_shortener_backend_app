@@ -86,8 +86,9 @@ async function displayQrImage(uniqueId){
     }
     try {
       let response = await fetch('https://linkly-obng.onrender.com/qrImage', options)
-      let data=await response.blob();
-      const objectURL = URL.createObjectURL(data);
+      let data=await response.arrayBuffer();
+      const bolb=new Blob([data],{type:'image/png'});
+      const objectURL = URL.createObjectURL(bolb);
       qrSection.src=objectURL;
     } catch (error) {
       console.log(error);
