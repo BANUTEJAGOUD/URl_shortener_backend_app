@@ -57,7 +57,7 @@ router.post('/longUrl', async (req, res) => {
 router.post('/qrImage', async (req, res) => {
   const shorturl = req.body.url;
   const id=req.body.id;
-  QRCode.toFile(`./src/public/images/${id}.png`, shorturl, async(err) => {
+  QRCode.toFile(path.join(__dirname, 'public', 'images', `${id}.png`), shorturl, async(err) => {
       if(err){
         res.status(404).send("qr code generation failed")
       }else{
