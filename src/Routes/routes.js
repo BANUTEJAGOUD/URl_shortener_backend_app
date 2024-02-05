@@ -56,29 +56,16 @@ router.post('/longUrl', async (req, res) => {
 
 router.post('/qrImage', async (req, res) => {
   const shorturl = req.body.url;
-  const id=req.body.id;
-  QRCode.toFile(path.join(__dirname, 'public', 'images', `${id}.png`), shorturl, async(err) => {
-      if(err){
-        res.status(404).send("qr code generation failed")
-      }else{
-        let filePath=`C:/Users/Banuteja/Desktop/Url_shortener_complete_express_app-master/src/public/images/${id}.png`
-        let result = await  res.sendFile(filePath,(err)=>{
-          if(err){
-            res.send(err);
-          }
-          else{
-            fs.unlink(filePath, (err) => {
-              if (err) {
-                console.error('Error deleting file:', err);
-              } else {
-                console.log('File deleted successfully');
-              }
-            });
-          }
-        });
-        
-      }
-  })
+  const id = req.body.id;
+  try {
+    const qrCodeBuffer = await QRCode.toBuffer(shorturl);
+    res.setHeader('Content-Type', 'image/png');
+    res.setHeader('Content-Disposition', `attachment; filename="${id}.png"`);
+    res.send(qrCodeBuffer);
+  } catch (err) {
+    console.error('QR code generation failed:', err);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 
